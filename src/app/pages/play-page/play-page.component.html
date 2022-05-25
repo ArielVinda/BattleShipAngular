@@ -1,0 +1,17 @@
+<section class="sub-view play-page">
+    <div class="board-container">
+        <div style="display: flex">
+            <div class="coordinates" *ngFor="let item of [].constructor(11); let i = index">
+                <h1 *ngIf="i > 0">{{i}}</h1>
+            </div>
+        </div>
+        <div *ngFor="let item of [].constructor(10); let i = index" class="board-row">
+            <div class="coordinates">
+                <h1>{{asciiFromCharCode(i + 65)}}</h1>
+            </div>
+            <app-board-cell *ngFor="let item of [].constructor(10); let j = index" [state]="(i === 1) && (j === 8) ? 'sunk' : 'untouched'">
+            <!-- <app-board-cell *ngFor="let item of [].constructor(10); let j = index"> -->
+            </app-board-cell>    
+        </div>
+    </div>
+</section>

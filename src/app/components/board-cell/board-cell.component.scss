@@ -1,0 +1,27 @@
+.board-cell {
+    --cell-size: var(--size-xxl);
+    width: var(--cell-size);
+    height: var(--cell-size);
+    background-color: var(--blue-light);
+    border: 1px solid var(--blue);
+
+    transition:  background-color 1s;
+
+    &.hit {
+        background-color: var(--green);
+    }
+    &.miss {
+        background-color: var(--blue);
+    }
+
+    &.sunk {
+        background-color: var(--red);
+    }
+
+    &:not(.miss):not(.hit):not(.sunk) {
+        &:hover {
+            background-color: var(--purple-light);
+            transition:  background-color 0s;
+        }
+    }
+}

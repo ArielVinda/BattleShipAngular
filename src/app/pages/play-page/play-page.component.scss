@@ -1,0 +1,27 @@
+.play-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.coordinates {
+    width: var(--size-xxl);
+    height: var(--size-xxl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--midnight-blue);
+
+    h1 {
+        color: var(--white);
+    }
+}
+
+.board-container {
+    padding: var(--size-m);
+    background-color: var(--blue);
+}
+
+.board-row {
+    display: flex;
+}

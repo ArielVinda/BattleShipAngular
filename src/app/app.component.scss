@@ -1,0 +1,26 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: var(--red);   
+}
+
+header {
+    padding: var(--size-l);
+    background-color: var(--blue);
+
+    .title {
+        color: var(--white);
+    }
+}
+
+nav {
+    background-color: var(--wet-asphalt);
+    display: flex;
+    flex-direction: row;
+}
+
+section.content {
+    background-color: var(--blue-light);
+    flex-grow: 1;
+}

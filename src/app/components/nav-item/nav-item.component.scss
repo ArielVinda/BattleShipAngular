@@ -1,0 +1,20 @@
+.nav-item {
+    cursor: pointer;
+    background-color: var(--wet-asphalt);
+    color: var(--white);
+    font-weight: bold;
+    padding: var(--size-m) var(--size-l);
+
+    transition: color 0.3s, background-color 0.3s;
+
+    &.active {
+        background-color: var(--midnight-blue);
+    }
+    &.disabled {
+        color: var(--asbestos);
+    }
+
+    &:hover:not(.disabled) {
+        color: var(--concrete);
+    }
+}
