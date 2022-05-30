@@ -1,5 +1,5 @@
 <section class="sub-view play-page">
-    <div class="board-container">
+    <div class="board-container" *ngIf="gameStarted">
         <div style="display: flex">
             <div class="coordinates" *ngFor="let item of [].constructor(11); let i = index">
                 <h1 *ngIf="i > 0">{{i}}</h1>

@@ -36,6 +36,7 @@ export class BoardUtilsService {
   }
 
   checkCellBussy(cell: Vec2, board: Array<Ship>) {
+    // console.log(board);
     // Check if the cell is occupied by a piece of a ship
     let filteredBoard: Array<{index: number, ship: Ship}> = [];
     board.map((ship, index) => {
@@ -69,7 +70,7 @@ export class BoardUtilsService {
               cell.x >= ship.startPosition.x &&
               cell.x <= ship.startPosition.x + ship.span - 1
             ) {
-              return shipIndex;
+              return shipIndex + 1; // dirty fix to avoid 0 = falsy
             }
           }
         } else if (ship.orientation === Orientation.VERTICAL) { // (NOTE): 'else if' is not needed (can use 'else'), i'm just using it to clearly visualize the orientation on code
@@ -82,7 +83,7 @@ export class BoardUtilsService {
               cell.y >= ship.startPosition.y &&
               cell.y <= ship.startPosition.y + ship.span - 1
             ) {
-              return shipIndex;
+              return shipIndex + 1; // dirty fix to avoid 0 = falsy
             }
           }
         }
@@ -102,7 +103,8 @@ export class BoardUtilsService {
 
       // Already exist a function to check if cell is occupied (bussy), 
       // opposite is empty 
-      return !this.checkCellBussy(cell, board);
+      let result = !this.checkCellBussy(cell, board); 
+      return result;
 
     } else {
       // Out of bounds
@@ -111,6 +113,9 @@ export class BoardUtilsService {
   }
 
   checkAvailableShipSpace(ship: Ship, board: Array<Ship>): boolean {
+    if (ship.span === 1) {
+      return this.checkAvailableCell(ship.startPosition, board);
+    }
     // Define direction of ship intended to be placed on board
     if (ship.orientation === Orientation.HORIZONTAL) {
       // Traverse ship cells and check against other ships in the board

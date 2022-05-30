@@ -11,72 +11,41 @@ import { environment } from 'src/environments/environment';
 export class PlayPageComponent implements OnInit {
 
   debug: boolean = !environment.production;
+  gameStarted = false;
 
-  board!: Array<Ship>;
-  hitArray: Array<Vec2> = [];
-  missArray: Array<Vec2> = [];
+  // hitArray!: Array<Vec2>;
+  // missArray!: Array<Vec2>;
 
   constructor(
-    protected gameService: GameService,
-    protected bU: BoardUtilsService
+    protected gameService: GameService
   ) { }
 
   ngOnInit(): void {
-    this.gameService.gameStart();
-    this.board = this.gameService.getBoard();
-    // console.log(this.checkShipCell({x: 4, y: 4}));
-    console.log(this.board);
-  }
-
-  check(cell: Vec2, array: Array<Vec2>) {
-    // can't compare value of object with Array.includes(cell), 
-    // so I'm filtering and checking length of result array
-    let result = array.filter((item) => {
-      return (
-        item.x === cell.x &&
-        item.y === cell.y
-      );
-    }); 
-    return !!result.length;
+    this.gameService.gameStart().subscribe((res)=>{
+      console.log(res);
+      this.gameStarted = res;
+    });
+    console.log('from play: ', this.gameService.getBoard());
   }
 
   checkMiss(cell: Vec2) {
-    return this.check(cell, this.missArray);
+    return this.gameService.checkMiss(cell);
   }
 
   checkHit(cell: Vec2) {
-    return this.check(cell, this.hitArray);
+    return this.gameService.checkHit(cell);
   }
 
   checkSunk(cell: Vec2) {
-    let index = this.bU.checkCellBussy(cell, this.board);
-    if (index) {
-      if (this.board[index].state === ShipState.SUNK) {
-        return true;
-      }
-    }
-    return false;
+    return this.gameService.checkSunk(cell);
   }
 
   shoot(cell: Vec2) {
-    let index = this.bU.checkCellBussy(cell, this.board); 
-    if (index) {
-      this.hitArray.push(cell);
-      let ship = this.board[index]; 
-      ship.hits++;
-      if (ship.span === ship.hits) {
-        ship.state = ShipState.SUNK;
-      }
-      console.log(this.board[index], ' at ', index);
-      console.log('with: ', cell);
-      console.log(this.hitArray);
-    } else {
-      this.missArray.push(cell);
-    }
+    this.gameService.shoot(cell);
   }
 
   checkShipCell(cell: Vec2): boolean {
-    return !!this.bU.checkCellBussy(cell, this.board);
+    return this.gameService.checkShipCell(cell);
   }
 
   asciiFromCharCode(charVal: number): string {
