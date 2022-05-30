@@ -1,1 +1,47 @@
-<p>settings-page works!</p>
+<form [formGroup]="form">
+    <section class="sub-view settings-page">
+        <div class="block">
+            <h2>Player Info</h2>
+            <div>
+                <app-text-input
+                    label="Name"
+                    formControlName="name"
+                ></app-text-input>
+                <div class="error-container" *ngIf="name?.invalid && (name?.dirty || name?.touched)">
+                    <p class="error" *ngIf="name?.errors?.['required']">Please provide a name.</p>
+                    <p class="error" *ngIf="name?.errors?.['maxlength']">Maximum characters is 5.</p>
+                </div>
+            </div>
+            <p>The name will be reflected on your score.</p>
+        </div>
+        <div class="block" [class.disabled]="form.value.mode === 1" (click)="setMode(0)">
+            <h2>Select Your Preffered Difficulty</h2>
+            <div>
+                <app-select 
+                    label="Difficulty"
+                    formControlName="difficulty" 
+                    [options]="[{name: 'Easy', value: 'E'}, {name: 'Medium', value: 'M'}, {name: 'Hard', value: 'H'}]"></app-select>
+            </div>
+            <ul>
+                <li>Easy: You have unlimited turns.</li>
+                <li>Medium: You have 50 turns.</li>
+                <li>Hard: You have 25 turns.</li>
+            </ul>
+        </div>
+        <div class="block" [class.disabled]="form.value.mode === 0" (click)="setMode(1)">
+            <h2>Or Add Your Custom Settings</h2>
+            <div>
+                <app-number-input
+                    label="Number of Turns"
+                    formControlName="turns"
+                ></app-number-input>
+                <div class="error-container" *ngIf="turns?.invalid && (turns?.dirty || turns?.touched)">
+                    <p class="error" *ngIf="turns?.errors?.['min']">Too few turns, 10 is the minimum number of turns you can have.</p>
+                    <p class="error" *ngIf="turns?.errors?.['max']">Too many turns, 100 is the maximum number of turns you can have.</p>
+                </div>   
+            </div>
+            <p>Manually set the maximum number of turns you'll be able to play.</p>
+        </div>
+        <p>{{form.value | json}}</p>
+    </section>
+</form>

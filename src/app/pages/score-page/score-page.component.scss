@@ -1,0 +1,32 @@
+.score-page {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.scoreboard {
+    width: 100%;        // This is a bounding trick for dimensions
+    max-width: 900px;   // it means - as long as it's less than max-width, take as much as you can -
+                        // it helps a lot with responsive
+    background-color: var(--blue);
+    padding: var(--size-l);
+
+    .scoreboard-title, .scoreboard-score-item {
+        color: white;
+    }
+
+    .scoreboard-scores {
+        background-color: var(--midnight-blue);
+        padding: var(--size-l);
+        &>* ~ * {
+            margin-top: var(--size-m);
+        }
+    }
+
+    &>* ~ * {
+        // this is a separation trick (similar to using gap property, but with full compativility)
+        // it means - for every child of this selector that is adjacent (to the right or the bottom - next in html order) to any other, do -
+        margin-top: var(--size-m);
+    }
+}

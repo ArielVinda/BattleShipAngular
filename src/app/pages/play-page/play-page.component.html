@@ -5,12 +5,19 @@
                 <h1 *ngIf="i > 0">{{i}}</h1>
             </div>
         </div>
-        <div *ngFor="let item of [].constructor(10); let i = index" class="board-row">
+        <!-- Rows - y -->
+        <div *ngFor="let item of [].constructor(10); let y = index" class="board-row">
             <div class="coordinates">
-                <h1>{{asciiFromCharCode(i + 65)}}</h1>
+                <h1>{{asciiFromCharCode(y + 65)}}</h1>
             </div>
-            <app-board-cell *ngFor="let item of [].constructor(10); let j = index" [state]="(i === 1) && (j === 8) ? 'sunk' : 'untouched'">
-            <!-- <app-board-cell *ngFor="let item of [].constructor(10); let j = index"> -->
+            <!--Columns - x -->
+            <app-board-cell *ngFor="let item of [].constructor(10); let x = index" 
+                [state]="checkSunk({x: x, y: y}) ? 'sunk' :
+                         checkHit({x: x, y: y}) ? 'hit' : 
+                         checkMiss({x: x, y: y}) ? 'miss' : 'untouched' " 
+                [hasShip]="debug && checkShipCell({x: x, y: y})"
+                (onClick)="shoot({x: x, y: y})"
+            >
             </app-board-cell>    
         </div>
     </div>

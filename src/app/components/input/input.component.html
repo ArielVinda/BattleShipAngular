@@ -1,0 +1,13 @@
+<div>
+    <label class="custom-field">
+        <span class="placeholder">{{label}}</span>
+        <input
+            [type]="type" 
+            [ngModel]="value" 
+            [disabled]="isDisabled" 
+            (ngModelChange)="changed($event)"
+            (blur)="touched()"
+        >
+        <div class="lower-decor"></div>
+    </label>
+</div>

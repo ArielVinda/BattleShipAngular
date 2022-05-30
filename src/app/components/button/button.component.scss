@@ -1,0 +1,13 @@
+button {
+    padding: var(--size-m) var(--size-l);
+    background-color: var(--wet-asphalt);
+
+    font-size: 16px;
+    color: var(--clouds);
+    
+    transition: background-color 0.3s;
+
+    &:hover {
+        background-color: var(--midnight-blue);
+    }
+}

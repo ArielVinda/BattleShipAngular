@@ -1,0 +1,8 @@
+<app-input 
+    type="text" 
+    [label]="label"
+    [ngModel]="value" 
+    [disabled]="isDisabled" 
+    (ngModelChange)="changed($event)"
+    (blur)="touched()"
+></app-input>

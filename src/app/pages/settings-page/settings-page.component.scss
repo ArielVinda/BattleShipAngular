@@ -1,0 +1,27 @@
+.settings-page {
+    .block {
+        transition: opacity 0.3s;
+        &.disabled {
+            opacity: 0.5;
+        }
+        &>* ~ * {
+            margin-top: var(--size-m);
+        }    
+    }
+    &>* ~ * {
+        margin-top: var(--size-l);
+    }
+}
+
+h2 {
+    color: var(--midnight-blue);
+}
+
+.error-container {
+    padding: 8px;
+    background-color: var(--red);
+    p.error {
+        // color: var(--red);
+        font-weight: bold;
+    }
+}

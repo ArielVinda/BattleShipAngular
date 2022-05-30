@@ -1,0 +1,16 @@
+<div>
+    <label class="custom-field">
+        <span class="placeholder">{{label}}</span>
+        <select
+            [ngModel]="value" 
+            [disabled]="isDisabled" 
+            (ngModelChange)="changed($event)"
+            (blur)="touched()"
+        >
+            <ng-container *ngFor="let item of options">
+                <option [value]="item.value ? item.value : item">{{item.name ? item.name : item}}</option>
+            </ng-container>
+        </select>
+        <div class="lower-decor"></div>
+    </label>
+</div>

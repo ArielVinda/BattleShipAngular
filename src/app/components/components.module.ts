@@ -2,20 +2,41 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavItemComponent } from './nav-item/nav-item.component';
 import { BoardCellComponent } from './board-cell/board-cell.component';
+import { ButtonComponent } from './button/button.component';
+import { InputComponent } from './input/input.component';
+import { TextInputComponent } from './text-input/text-input.component';
+import { NumberInputComponent } from './number-input/number-input.component';
+import { SelectComponent } from './select/select.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RadioComponent } from './radio/radio.component';
 
 
 
 @NgModule({
   declarations: [
     NavItemComponent,
-    BoardCellComponent
+    BoardCellComponent,
+    ButtonComponent,
+    InputComponent,
+    TextInputComponent,
+    NumberInputComponent,
+    SelectComponent,
+    RadioComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     NavItemComponent,
-    BoardCellComponent
+    BoardCellComponent,
+    ButtonComponent,
+    InputComponent,
+    TextInputComponent,
+    NumberInputComponent,
+    SelectComponent,
+    RadioComponent
   ]
 })
 export class ComponentsModule { }

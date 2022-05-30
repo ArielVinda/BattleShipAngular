@@ -2,15 +2,55 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 // minimal reset
-h1, h2, h3, h4, h5, h6, p, a, span {
+h1, h2, h3, h4, h5, h6, p, a, span, label, ul, li {
     font-family: 'Robot', sans-serif;
     margin: 0;
 }
 
-div, section, article, html, body, aside, header, footer {
+h1 {
+    font-size: 32px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 10px;
+}
+
+div, section, article, html, body, aside, header, footer, button, select, ul, li {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+}
+
+ul, li {
+    list-style-type: none;
+}
+
+ul, li, a {
+    text-decoration: none;
+}
+
+button, select, input {
+    box-sizing: border-box;
+    cursor: pointer;
+    border: 0;
+    background-color: transparent;
+}
+
+select, input {
+    appearance: none;
+    outline: none;
+    font-size: 16px;
 }
 
 /* global styles */
@@ -63,6 +103,11 @@ div, section, article, html, body, aside, header, footer {
     --size-l: 24px;
     --size-xl: 32px;
     --size-xxl: 48px;
+}
+
+// global override (akin to theming)
+h1, h2, h3, h4, h5, h6, p, a, span, label, ul, li {
+    color: var(--white);
 }
 
 // global classes

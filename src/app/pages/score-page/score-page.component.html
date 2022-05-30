@@ -1,1 +1,11 @@
-<p>score-page works!</p>
+<section class="sub-view score-page">
+    <div class="scoreboard">
+        <h1 class="scoreboard-title">Scoreboard</h1>
+        <div class="scoreboard-scores">
+            <ng-container *ngIf="scoreList">
+                <h4 class="scoreboard-score-item" *ngFor="let score of scoreList">{{(score.name + " " + score.score).toUpperCase()}}</h4>
+            </ng-container>
+        </div>
+    </div>
+    <app-button (onClick)="scoreService.writeScore({name: 'Ari', score: 3000})">Add Score</app-button>
+</section>

@@ -5,6 +5,10 @@
     background-color: var(--blue-light);
     border: 1px solid var(--blue);
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     transition:  background-color 1s;
 
     &.hit {
@@ -20,8 +24,15 @@
 
     &:not(.miss):not(.hit):not(.sunk) {
         &:hover {
+            cursor: pointer;
             background-color: var(--purple-light);
             transition:  background-color 0s;
         }
+    }
+
+    .debug-mark {
+        width: var(--size-xl);
+        height: var(--size-xl);
+        background-color: var(--white);
     }
 }

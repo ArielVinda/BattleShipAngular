@@ -1,1 +1,10 @@
-<div class="board-cell" [class.hit]="state === 'hit'" [class.miss]="state === 'miss'" [class.sunk]="state === 'sunk'"></div>
+<div class="board-cell" 
+    [class.hit]="state === 'hit'" 
+    [class.miss]="state === 'miss'" 
+    [class.sunk]="state === 'sunk'"
+    (click)="canClick()"
+>
+    <ng-container *ngIf="hasShip">
+        <div class="debug-mark"></div>
+    </ng-container>
+</div>
