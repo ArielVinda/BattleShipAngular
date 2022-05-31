@@ -4,10 +4,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ComponentsModule } from './components/components.module';
+import { GameRunningDialogComponent } from './components/game-running-dialog/game-running-dialog.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    GameRunningDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -15,6 +17,9 @@ import { ComponentsModule } from './components/components.module';
     ComponentsModule
   ],
   providers: [],
+  entryComponents: [
+    GameRunningDialogComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

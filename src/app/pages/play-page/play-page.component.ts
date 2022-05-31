@@ -20,7 +20,6 @@ export class PlayPageComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    console.log('PLAY on init');
     this.gameService.gameStart();
     this.gameService.getGameState().subscribe((res)=>{
       console.log(res);
@@ -30,8 +29,9 @@ export class PlayPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.gameService.gamePause();
-    console.log('PLAY on destroy');
+    if (this.gameStarted) {
+      this.gameService.gamePause();
+    }
   }
 
   checkMiss(cell: Vec2) {

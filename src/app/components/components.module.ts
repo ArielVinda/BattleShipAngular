@@ -9,6 +9,7 @@ import { NumberInputComponent } from './number-input/number-input.component';
 import { SelectComponent } from './select/select.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RadioComponent } from './radio/radio.component';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 
 
@@ -26,7 +27,8 @@ import { RadioComponent } from './radio/radio.component';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    OverlayModule
   ],
   exports: [
     NavItemComponent,

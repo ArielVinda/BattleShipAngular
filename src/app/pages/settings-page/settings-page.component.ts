@@ -2,7 +2,10 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { GameService, GameState } from 'src/app/services/game.service';
+import { DialogService } from 'src/app/services/dialog.service';
 import { SettingsDifficulty, SettingsDifficultyOption, SettingsFormMode, SettingsService } from 'src/app/services/settings.service';
+import { GameRunningDialogComponent } from 'src/app/components/game-running-dialog/game-running-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings-page',
@@ -22,7 +25,9 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
   constructor(
     protected fb: FormBuilder,
     public settingsService: SettingsService,
-    public gameService: GameService
+    public gameService: GameService,
+    public dialog: DialogService,
+    public router: Router
   ) { }
 
   get name() { return this.form.get('name'); }
@@ -31,6 +36,17 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
   setMode(val: SettingsFormMode): void {
     this.form.patchValue({
       mode: val
+    });
+  }
+
+  openDialog() {
+    this.dialog.open(GameRunningDialogComponent, { 
+      data: 'Please finish the game before trying to modify Settings!', 
+      config: {
+        hasBackdrop: true
+      }
+    }).afterClosed().subscribe(()=> {
+      this.router.navigate(['play']);
     });
   }
 
@@ -66,6 +82,9 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
     this.gameStateSubscription = 
     this.gameService.getGameState().subscribe((res) => {
       this.gameState = res;
+      if (this.gameState === GameState.ON || this.gameState ===  GameState.PAUSED) {
+        this.openDialog();
+      }
     });
     this.difficultyOptions = this.settingsService.getDifficultyOptions();
     this.buildForm();

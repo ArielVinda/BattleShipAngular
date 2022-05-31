@@ -1,0 +1,10 @@
+.dialog-box {
+    max-width: 900px;
+    margin: var(--size-l);
+    padding: var(--size-l);
+    background-color: var(--blue);
+
+    &>*~* {
+        margin-top: var(--size-l);
+    }
+}
