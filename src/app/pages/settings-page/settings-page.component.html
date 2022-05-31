@@ -1,6 +1,5 @@
 <form [formGroup]="form">
     <section class="sub-view settings-page">
-        <p>Game state is : {{gameState}}</p>
         <div class="block">
             <h2>Player Info</h2>
             <div>
@@ -44,10 +43,8 @@
             <p>Manually set the maximum number of turns you'll be able to play.</p>
         </div>
         <div class="actions">
-            <app-button>Save Settings</app-button>
-            <app-button skin="outline" (onClick)="restoreForm()">Restore To Previous</app-button>
+            <app-button (onClick)="saveForm()">Save Settings</app-button>
+            <app-button skin="outline" (onClick)="restoreForm()">Restore To Default</app-button>
         </div>
-        <!-- <app-button (onClick)="openDialog()">Open Dialog</app-button> -->
-        <p>{{form.value | json}}</p>
     </section>
 </form>

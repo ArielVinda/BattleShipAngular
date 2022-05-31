@@ -1,13 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, ObjectUnsubscribedError, Observable, Subject } from 'rxjs';
 import { BoardUtilsService, Ship, ShipState, Vec2 } from './board-utils.service';
 import { GeneratorService } from './generator.service';
 import { ScoreService } from './score.service';
+import { SettingsService } from './settings.service';
 
 export enum GameState {
   ON = 'ON',
   OFF = 'OFF',
-  PAUSED = 'PAUSED'
+  PAUSED = 'PAUSED',
+  FINISHED = 'FINISHED'
+}
+
+export enum Result {
+  WIN = 'WIN',
+  LOOSE = 'LOOSE'
 }
 
 @Injectable({
@@ -16,15 +23,33 @@ export enum GameState {
 export class GameService {
 
   state: GameState = GameState.OFF;
+  stateSubject: BehaviorSubject<GameState> = new BehaviorSubject<GameState>(GameState.OFF);
+
   name: string = '';
-  board: Array<Ship> = [];
+  nameSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
+
+  maxTurns!: number;
   turns: number = 100;
+  turnsSubject: BehaviorSubject<number> = new BehaviorSubject<number>(10);
+  gameResult!: Result;
+  gameResultSubject: Subject<Result> = new Subject<Result>();
+
+  getName(): BehaviorSubject<string> {
+    return this.nameSubject;
+  }
+
+  getTurns(): BehaviorSubject<number> {
+    return this.turnsSubject;
+  }
+
+  board: Array<Ship> = [];
   score: number = 0;
 
   hitArray: Array<Vec2> = [];
   missArray: Array<Vec2> = [];
 
   constructor(
+    public settingsService: SettingsService,
     public generatorService: GeneratorService,
     public boardUtils: BoardUtilsService,
     public scoreService: ScoreService
@@ -40,6 +65,10 @@ export class GameService {
       );
     }); 
     return !!result.length;
+  }
+
+  getGameResult(): Result {
+    return this.gameResult;
   }
 
   checkMiss(cell: Vec2) {
@@ -80,6 +109,7 @@ export class GameService {
     }
     // substract one from turns
     this.turns--;
+    this.turnsSubject.next(this.turns);
     // check if game has ended
     this.checkTurns();
   }
@@ -88,12 +118,16 @@ export class GameService {
     if (this.turns === 0 && this.hitArray.length !== 20) {
       // if out of turns and haven't hit all the ship cells
       console.log('You loose!');
+      this.gameResult = Result.LOOSE;
+      this.gameResultSubject.next(this.gameResult);
+      this.gameFinished();
     } else if (this.hitArray.length === 20) {
       console.log('You win!');
-      let score = this.hitArray.length - this.missArray.length;
-      this.scoreService.writeScore({name: 'ARI', score: 3000});
-      // write turns
-      console.log(score);
+      let score = (this.hitArray.length - (this.missArray.length * (20 / this.maxTurns))) * 1000;
+      this.scoreService.writeScore({name: this.name, score: score});
+      this.gameResult = Result.WIN;
+      this.gameResultSubject.next(this.gameResult);
+      this.gameFinished();
     }
   }
 
@@ -105,39 +139,52 @@ export class GameService {
     return this.board;
   }
 
-  getGameState(): Observable<GameState> {
-    return new Observable((observer) => {
-      // sort by highest score, filter first 10
-      observer.next(this.state);
-      return {
-        unsubscribe() {
-          // clean up
-        }
-      }
-    });
+  getGameState(): BehaviorSubject<GameState> {
+    return this.stateSubject;
   }
 
   gameStart(): GameState {
-    if (this.state === GameState.OFF) {
+    if (this.state === GameState.OFF || this.state === GameState.FINISHED) {
+      // clear arrays
+      this.hitArray = [];
+      this.missArray = [];
       // generate ships on board
       this.board = this.generatorService.generateBoard();
       
       // set state to ON
       this.state = GameState.ON;
+      this.stateSubject.next(this.state);
+
+      // get player and settings data
+      this.settingsService.getSettings().subscribe((settings) => {
+        this.name = settings.name;
+        this.nameSubject.next(this.name);
+        this.turns = settings.maxTurns;
+        this.turnsSubject.next(this.turns);
+        this.maxTurns = settings.maxTurns;
+      });
     } else if (this.state === GameState.PAUSED) {
       // set state to ON
       this.state = GameState.ON;
+      this.stateSubject.next(this.state);
     }
     return this.state;
   }
   gameEnd() {
     // clean board
-
+    this.board = [];
     // set state to OFF
     this.state = GameState.OFF;
+    this.stateSubject.next(this.state);
   }
   gamePause() {
     // set state to PAUSED
     this.state = GameState.PAUSED;
+    this.stateSubject.next(this.state);
+  }
+  gameFinished() {
+    // set state to FINISHED
+    this.state = GameState.FINISHED;
+    this.stateSubject.next(this.state);
   }
 }

@@ -108,6 +108,18 @@ select, input {
     --size-xxl: 48px;
 }
 
+@media (max-width: 768px) {
+    // quick and dirty responsive
+    :root {
+        --size-xs: 2px;
+        --size-s: 4px;
+        --size-m: 8px;
+        --size-l: 16px;
+        --size-xl: 24px;
+        --size-xxl: 32px;
+    }
+}
+
 // global override (akin to theming)
 h1, h2, h3, h4, h5, h6, p, a, span, label, ul, li {
     color: var(--white);

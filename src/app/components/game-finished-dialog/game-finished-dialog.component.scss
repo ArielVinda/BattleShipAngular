@@ -1,0 +1,16 @@
+.dialog-box {
+    max-width: 900px;
+    margin: var(--size-l);
+    padding: var(--size-l);
+    background-color: var(--blue);
+
+    .actions-section {
+        &>* ~ * {
+            margin-left: var(--size-m);
+        }
+    }
+
+    &>* ~ * {
+        margin-top: var(--size-l);
+    }
+}

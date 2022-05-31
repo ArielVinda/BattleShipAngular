@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 export interface Settings {
   name: string;
@@ -39,6 +40,7 @@ export class SettingsService {
     difficulty: SettingsDifficulty.EASY, 
     mode: SettingsFormMode.PRESET
   }
+  private userSettingsForm!: SettingsForm;
 
   private maxTurns!: number;
   private name!: string; 
@@ -67,6 +69,7 @@ export class SettingsService {
   }
 
   writeSettings(settings: SettingsForm): void {
+    this.userSettingsForm = settings;
     if (settings.mode === SettingsFormMode.PRESET) {
       switch (settings.difficulty) {
         case SettingsDifficulty.EASY: {
@@ -87,10 +90,21 @@ export class SettingsService {
     }
     this.name = settings.name;
   }
-  getSettings(): Settings {
-    return {
-      name: this.name,
-      maxTurns: this.maxTurns
-    }
+  getUserSettings(): SettingsForm {
+    return this.userSettingsForm;
+  }
+  getSettings(): Observable<Settings> {
+    return new Observable<Settings>((observer) => {
+      observer.next({
+        name: this.name,
+        maxTurns: this.maxTurns
+      });
+
+      return {
+        unsubscribe() {
+          // clean up
+        }
+      }
+    })
   }
 }

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { GameService, GameState } from 'src/app/services/game.service';
 import { DialogService } from 'src/app/services/dialog.service';
-import { SettingsDifficulty, SettingsDifficultyOption, SettingsFormMode, SettingsService } from 'src/app/services/settings.service';
+import { SettingsDifficulty, SettingsDifficultyOption, SettingsForm, SettingsFormMode, SettingsService } from 'src/app/services/settings.service';
 import { GameRunningDialogComponent } from 'src/app/components/game-running-dialog/game-running-dialog.component';
 import { Router } from '@angular/router';
 
@@ -70,8 +70,17 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  saveForm(): void {
+  setForm(settings: SettingsForm) {
+    this.form.patchValue(
+      {
+        ...settings
+      }
+    );
+  }
 
+  saveForm(): void {
+    console.log(this.form.value);
+    this.settingsService.writeSettings(this.form.value);
   }
 
   restoreForm(): void {
@@ -81,6 +90,7 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.gameStateSubscription = 
     this.gameService.getGameState().subscribe((res) => {
+      console.log(res);
       this.gameState = res;
       if (this.gameState === GameState.ON || this.gameState ===  GameState.PAUSED) {
         this.openDialog();
@@ -88,7 +98,11 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
     });
     this.difficultyOptions = this.settingsService.getDifficultyOptions();
     this.buildForm();
-    this.setFormDefault();
+    if (!this.settingsService.getUserSettings()) {
+      this.setFormDefault();
+    } else {
+      this.setForm(this.settingsService.getUserSettings());
+    }
   }
 
   ngOnDestroy(): void {

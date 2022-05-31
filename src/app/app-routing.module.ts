@@ -4,6 +4,11 @@ import { SettingsPageModule } from './pages/settings-page/settings-page.module';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'settings',
+    pathMatch: 'full'
+  },
+  {
     path: 'settings',
     loadChildren: () => import('./pages/settings-page/settings-page.module').then(m => m.SettingsPageModule)
   },

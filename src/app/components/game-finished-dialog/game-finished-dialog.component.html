@@ -1,0 +1,12 @@
+<div class="dialog-box">
+    <div class="title-section">
+        <h2>You {{data.result}} the Game!</h2>
+    </div>
+    <div class="content-section">
+        <p>{{data.message}}</p>
+    </div>
+    <div class="actions-section">
+        <app-button (onClick)="close('Again')">Try Again!</app-button>
+        <app-button (onClick)="close('Scores')">See Scores</app-button>
+    </div>
+</div>

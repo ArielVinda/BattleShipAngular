@@ -1,29 +1,34 @@
 <section class="sub-view play-page">
-    <div class="ships" *ngIf="gameStarted">
-        <div class="ship" *ngFor="let ship of board">
-            <app-board-cell [noHover]="true" *ngFor="let cell of [].constructor(ship.span)" [state]="ship.state === 1 ? 'sunk' : 'untouched'"></app-board-cell>
-        </div>
-    </div>
-    <div class="board-container" *ngIf="gameStarted">
-        <div style="display: flex">
-            <div class="coordinates" *ngFor="let item of [].constructor(11); let i = index">
-                <h1 *ngIf="i > 0">{{i}}</h1>
+    <h2>Hello {{name$ | async}}, you have {{turns$ | async}} turns left to complete the game!</h2>
+    <div class="board-ships-section" *ngIf="gameStarted || gameFinished">
+        <div class="ships">
+            <div class="ships-container">
+                <div class="ship" *ngFor="let ship of board">
+                    <app-board-cell [noHover]="true" *ngFor="let cell of [].constructor(ship.span)" [state]="ship.state === 1 ? 'sunk' : 'untouched'"></app-board-cell>
+                </div>
             </div>
         </div>
-        <!-- Rows - y -->
-        <div *ngFor="let item of [].constructor(10); let y = index" class="board-row">
-            <div class="coordinates">
-                <h1>{{asciiFromCharCode(y + 65)}}</h1>
+        <div class="board-container">
+            <div style="display: flex">
+                <div class="coordinates" *ngFor="let item of [].constructor(11); let i = index">
+                    <h1 *ngIf="i > 0">{{i}}</h1>
+                </div>
             </div>
-            <!--Columns - x -->
-            <app-board-cell *ngFor="let item of [].constructor(10); let x = index" 
-                [state]="checkSunk({x: x, y: y}) ? 'sunk' :
-                         checkHit({x: x, y: y}) ? 'hit' : 
-                         checkMiss({x: x, y: y}) ? 'miss' : 'untouched' " 
-                [hasShip]="debug && checkShipCell({x: x, y: y})"
-                (onClick)="shoot({x: x, y: y})"
-            >
-            </app-board-cell>    
+            <!-- Rows - y -->
+            <div *ngFor="let item of [].constructor(10); let y = index" class="board-row">
+                <div class="coordinates">
+                    <h1>{{asciiFromCharCode(y + 65)}}</h1>
+                </div>
+                <!--Columns - x -->
+                <app-board-cell *ngFor="let item of [].constructor(10); let x = index" 
+                    [state]="checkSunk({x: x, y: y}) ? 'sunk' :
+                             checkHit({x: x, y: y}) ? 'hit' : 
+                             checkMiss({x: x, y: y}) ? 'miss' : 'untouched' " 
+                    [hasShip]="debug && checkShipCell({x: x, y: y})"
+                    (onClick)="shoot({x: x, y: y})"
+                >
+                </app-board-cell>    
+            </div>
         </div>
     </div>
 </section>

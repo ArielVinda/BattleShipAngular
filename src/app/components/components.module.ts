@@ -10,6 +10,7 @@ import { SelectComponent } from './select/select.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RadioComponent } from './radio/radio.component';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { NoSettingsDialogComponent } from './no-settings-dialog/no-settings-dialog.component';
 
 
 

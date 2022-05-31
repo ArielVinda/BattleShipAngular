@@ -1,7 +1,17 @@
 .play-page {
+    &>* ~ * {
+        margin-top: var(--size-l);
+    }
+}
+
+.board-ships-section {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     align-items: center;
+    &>* ~ * {
+        margin: var(--size-l);
+    }
 }
 
 .coordinates {
@@ -14,6 +24,7 @@
 
     h1 {
         color: var(--white);
+        font-size: var(--size-xl);
     }
 }
 
@@ -27,13 +38,21 @@
 }
 
 .ships {
+    max-width: 344px;
     padding: var(--size-m);
     background-color: var(--blue);
-    .ship {
+    .ships-container {
         display: flex;
         flex-direction: row;
-    }
-    &>*~* {
-        margin-top: var(--size-xs);
+        flex-wrap: wrap;
+        align-items: center;
+        margin: -var(--size-xs);
+        .ship {
+            display: flex;
+            flex-direction: row;
+        }
+        &>* {
+            margin: var(--size-xs);
+        }
     }
 }

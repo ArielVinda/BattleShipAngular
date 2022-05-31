@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { GameRunningDialogComponent } from 'src/app/components/game-running-dialog/game-running-dialog.component';
 import { DialogService } from 'src/app/services/dialog.service';
 import { GameService, GameState } from 'src/app/services/game.service';
@@ -21,7 +22,8 @@ export class ScorePageComponent implements OnInit, OnDestroy {
     public dialog: DialogService
   ) { }
 
-  scoreServiceUnsubscribe: any;
+  scoreServiceUnsubscribe!: Subscription;
+  gameStateUnsubscribe!: Subscription;
   scoreList: Array<ScoreItem> = [];
 
   openDialog() {
@@ -36,7 +38,7 @@ export class ScorePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.gameService.getGameState().subscribe((res) => {
+    this.gameStateUnsubscribe = this.gameService.getGameState().subscribe((res) => {
       this.gameState = res;
       if (this.gameState === GameState.ON || this.gameState ===  GameState.PAUSED) {
         this.openDialog();
@@ -49,7 +51,8 @@ export class ScorePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.scoreServiceUnsubscribe
+    this.scoreServiceUnsubscribe.unsubscribe();
+    this.gameStateUnsubscribe.unsubscribe();
   }
 
 }
