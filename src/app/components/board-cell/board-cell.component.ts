@@ -9,6 +9,7 @@ export class BoardCellComponent implements OnInit {
 
   @Input() state: 'hit' | 'miss' | 'sunk' | 'untouched' = 'untouched';
   @Input() hasShip: boolean = false;
+  @Input() noHover: boolean = false;
 
   @Output() onClick: EventEmitter<void> = new EventEmitter();
 

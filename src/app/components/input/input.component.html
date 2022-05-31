@@ -3,7 +3,7 @@
         <span class="placeholder">{{label}}</span>
         <input
             [type]="type" 
-            [ngModel]="value" 
+            [(ngModel)]="value" 
             [disabled]="isDisabled" 
             (ngModelChange)="changed($event)"
             (blur)="touched()"

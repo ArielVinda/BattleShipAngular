@@ -1,3 +1,5 @@
-<button (click)="onClick.emit()">
+<button
+    [class.outline]="skin === 'outline'"
+    (click)="onClick.emit()">
     <ng-content></ng-content>
 </button>

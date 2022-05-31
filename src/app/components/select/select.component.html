@@ -2,7 +2,7 @@
     <label class="custom-field">
         <span class="placeholder">{{label}}</span>
         <select
-            [ngModel]="value" 
+            [(ngModel)]="value" 
             [disabled]="isDisabled" 
             (ngModelChange)="changed($event)"
             (blur)="touched()"

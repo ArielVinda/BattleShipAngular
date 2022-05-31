@@ -22,7 +22,6 @@ export class GeneratorService {
       }
     }
     // return board object;
-    console.log(board);
     return board;
   }
 

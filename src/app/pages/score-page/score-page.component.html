@@ -1,4 +1,5 @@
 <section class="sub-view score-page">
+    <p>GameState is: {{gameState}}</p>
     <div class="scoreboard">
         <h1 class="scoreboard-title">Scoreboard</h1>
         <div class="scoreboard-scores">
@@ -7,5 +8,4 @@
             </ng-container>
         </div>
     </div>
-    <app-button (onClick)="scoreService.writeScore({name: 'Ari', score: 3000})">Add Score</app-button>
 </section>

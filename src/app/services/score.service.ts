@@ -55,6 +55,10 @@ export class ScoreService {
     {
       name: "AAK",
       score: 10
+    },
+    {
+      name: "AAL",
+      score: 0
     }
   ];
 
@@ -65,7 +69,8 @@ export class ScoreService {
   }
   getAllScores(): Observable<Array<ScoreItem>> {
     return new Observable((observer) => {
-      observer.next(this.scoreList);
+      // sort by highest score, filter first 10
+      observer.next(this.scoreList.sort((a, b)=>{ return b.score - a.score ;}).filter((item, index) => { return index < 10;}));
       return {
         unsubscribe() {
           // clean up

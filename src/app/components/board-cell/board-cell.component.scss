@@ -21,8 +21,11 @@
     &.sunk {
         background-color: var(--red);
     }
+    &.hit, &.miss, &.sunk {
+        transition-duration: 0.3s;
+    }
 
-    &:not(.miss):not(.hit):not(.sunk) {
+    &:not(.miss):not(.hit):not(.sunk):not(.noHover) {
         &:hover {
             cursor: pointer;
             background-color: var(--purple-light);

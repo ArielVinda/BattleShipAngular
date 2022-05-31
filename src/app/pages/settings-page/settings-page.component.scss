@@ -25,3 +25,9 @@ h2 {
         font-weight: bold;
     }
 }
+
+.actions {
+    &>* ~ * {
+        margin-left: var(--size-m);
+    }
+}

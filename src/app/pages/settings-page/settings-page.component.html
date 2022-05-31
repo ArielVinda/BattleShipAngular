@@ -1,5 +1,6 @@
 <form [formGroup]="form">
     <section class="sub-view settings-page">
+        <p>Game state is : {{gameState}}</p>
         <div class="block">
             <h2>Player Info</h2>
             <div>
@@ -14,13 +15,13 @@
             </div>
             <p>The name will be reflected on your score.</p>
         </div>
-        <div class="block" [class.disabled]="form.value.mode === 1" (click)="setMode(0)">
+        <div class="block" [class.disabled]="form.value.mode === settingsFormModeType.CUSTOM" (click)="setMode(settingsFormModeType.PRESET)">
             <h2>Select Your Preffered Difficulty</h2>
             <div>
                 <app-select 
                     label="Difficulty"
                     formControlName="difficulty" 
-                    [options]="[{name: 'Easy', value: 'E'}, {name: 'Medium', value: 'M'}, {name: 'Hard', value: 'H'}]"></app-select>
+                    [options]="difficultyOptions"></app-select>
             </div>
             <ul>
                 <li>Easy: You have unlimited turns.</li>
@@ -28,12 +29,12 @@
                 <li>Hard: You have 25 turns.</li>
             </ul>
         </div>
-        <div class="block" [class.disabled]="form.value.mode === 0" (click)="setMode(1)">
+        <div class="block" [class.disabled]="form.value.mode === settingsFormModeType.PRESET" (click)="setMode(settingsFormModeType.CUSTOM)">
             <h2>Or Add Your Custom Settings</h2>
             <div>
                 <app-number-input
                     label="Number of Turns"
-                    formControlName="turns"
+                    formControlName="maxTurns"
                 ></app-number-input>
                 <div class="error-container" *ngIf="turns?.invalid && (turns?.dirty || turns?.touched)">
                     <p class="error" *ngIf="turns?.errors?.['min']">Too few turns, 10 is the minimum number of turns you can have.</p>
@@ -41,6 +42,10 @@
                 </div>   
             </div>
             <p>Manually set the maximum number of turns you'll be able to play.</p>
+        </div>
+        <div class="actions">
+            <app-button>Save Settings</app-button>
+            <app-button skin="outline" (onClick)="restoreForm()">Restore To Previous</app-button>
         </div>
         <p>{{form.value | json}}</p>
     </section>

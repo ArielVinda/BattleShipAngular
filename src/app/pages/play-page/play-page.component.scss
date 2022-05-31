@@ -25,3 +25,15 @@
 .board-row {
     display: flex;
 }
+
+.ships {
+    padding: var(--size-m);
+    background-color: var(--blue);
+    .ship {
+        display: flex;
+        flex-direction: row;
+    }
+    &>*~* {
+        margin-top: var(--size-xs);
+    }
+}

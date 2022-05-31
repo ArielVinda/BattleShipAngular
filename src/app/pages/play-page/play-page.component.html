@@ -1,4 +1,9 @@
 <section class="sub-view play-page">
+    <div class="ships" *ngIf="gameStarted">
+        <div class="ship" *ngFor="let ship of board">
+            <app-board-cell [noHover]="true" *ngFor="let cell of [].constructor(ship.span)" [state]="ship.state === 1 ? 'sunk' : 'untouched'"></app-board-cell>
+        </div>
+    </div>
     <div class="board-container" *ngIf="gameStarted">
         <div style="display: flex">
             <div class="coordinates" *ngFor="let item of [].constructor(11); let i = index">

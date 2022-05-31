@@ -5,9 +5,9 @@ import { GeneratorService } from './generator.service';
 import { ScoreService } from './score.service';
 
 export enum GameState {
-  ON,
-  OFF,
-  PAUSED // I don't think i'm going to use it
+  ON = 'ON',
+  OFF = 'OFF',
+  PAUSED = 'PAUSED'
 }
 
 @Injectable({
@@ -16,7 +16,10 @@ export enum GameState {
 export class GameService {
 
   state: GameState = GameState.OFF;
+  name: string = '';
   board: Array<Ship> = [];
+  turns: number = 100;
+  score: number = 0;
 
   hitArray: Array<Vec2> = [];
   missArray: Array<Vec2> = [];
@@ -58,20 +61,39 @@ export class GameService {
   }
 
   shoot(cell: Vec2) {
-    console.log(this.board);
+    // save indexPlusOne due to an error with 0 = falsy
     let indexPlusOne = this.boardUtils.checkCellBussy(cell, this.board);
     if (indexPlusOne) {
+      // if there's an index, there was a hit
+      // push to hitArray
       this.hitArray.push(cell);
+      // select ship and add 1 to hit property
       let ship = this.board[indexPlusOne - 1]; 
       ship.hits++;
+      // check if ship is sunk
       if (ship.span === ship.hits) {
         ship.state = ShipState.SUNK;
       }
-      console.log(this.board[indexPlusOne - 1], ' at ', indexPlusOne - 1);
-      console.log('with: ', cell);
-      console.log(this.hitArray);
     } else {
+      // push cell to missArray
       this.missArray.push(cell);
+    }
+    // substract one from turns
+    this.turns--;
+    // check if game has ended
+    this.checkTurns();
+  }
+
+  checkTurns() {
+    if (this.turns === 0 && this.hitArray.length !== 20) {
+      // if out of turns and haven't hit all the ship cells
+      console.log('You loose!');
+    } else if (this.hitArray.length === 20) {
+      console.log('You win!');
+      let score = this.hitArray.length - this.missArray.length;
+      this.scoreService.writeScore({name: 'ARI', score: 3000});
+      // write turns
+      console.log(score);
     }
   }
 
@@ -83,25 +105,30 @@ export class GameService {
     return this.board;
   }
 
-  getGameState(): GameState {
-    return this.state;
-  }
-
-  gameStart(): Observable<boolean> {
-    // generate ships on board
-    this.board = this.generatorService.generateBoard();
-    console.log(this.board);
-    
-    // set state to ON
-    this.state = GameState.ON;
+  getGameState(): Observable<GameState> {
     return new Observable((observer) => {
-      observer.next(this.state === GameState.ON);
+      // sort by highest score, filter first 10
+      observer.next(this.state);
       return {
         unsubscribe() {
           // clean up
         }
       }
     });
+  }
+
+  gameStart(): GameState {
+    if (this.state === GameState.OFF) {
+      // generate ships on board
+      this.board = this.generatorService.generateBoard();
+      
+      // set state to ON
+      this.state = GameState.ON;
+    } else if (this.state === GameState.PAUSED) {
+      // set state to ON
+      this.state = GameState.ON;
+    }
+    return this.state;
   }
   gameEnd() {
     // clean board

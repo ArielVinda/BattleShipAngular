@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { GameService, GameState } from 'src/app/services/game.service';
 import { ScoreItem, ScoreService } from 'src/app/services/score.service';
 
 @Component({
@@ -8,7 +9,10 @@ import { ScoreItem, ScoreService } from 'src/app/services/score.service';
 })
 export class ScorePageComponent implements OnInit, OnDestroy {
 
+  gameState!: GameState;
+
   constructor(
+    public gameService: GameService,
     public scoreService: ScoreService
   ) { }
 
@@ -16,6 +20,9 @@ export class ScorePageComponent implements OnInit, OnDestroy {
   scoreList: Array<ScoreItem> = [];
 
   ngOnInit(): void {
+    this.gameService.getGameState().subscribe((res) => {
+      this.gameState = res;
+    });
     this.scoreServiceUnsubscribe = this.scoreService.getAllScores().subscribe((res)=> {
       console.log(res);
       this.scoreList = res;

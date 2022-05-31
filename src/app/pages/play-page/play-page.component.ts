@@ -1,31 +1,37 @@
-import { Component, OnInit } from '@angular/core';
-import { GameService } from 'src/app/services/game.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { GameService, GameState } from 'src/app/services/game.service';
 import { BoardUtilsService, Ship, ShipState, Vec2 } from 'src/app/services/board-utils.service';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-play-page',
   templateUrl: './play-page.component.html',
   styleUrls: ['./play-page.component.scss']
 })
-export class PlayPageComponent implements OnInit {
+export class PlayPageComponent implements OnInit, OnDestroy {
 
   debug: boolean = !environment.production;
-  gameStarted = false;
-
-  // hitArray!: Array<Vec2>;
-  // missArray!: Array<Vec2>;
+  board: any;
+  gameStarted: boolean = false;
 
   constructor(
     protected gameService: GameService
   ) { }
 
   ngOnInit(): void {
-    this.gameService.gameStart().subscribe((res)=>{
+    console.log('PLAY on init');
+    this.gameService.gameStart();
+    this.gameService.getGameState().subscribe((res)=>{
       console.log(res);
-      this.gameStarted = res;
+      this.gameStarted = (res === GameState.ON);
+      this.board = this.gameService.getBoard();
     });
-    console.log('from play: ', this.gameService.getBoard());
+  }
+
+  ngOnDestroy(): void {
+    this.gameService.gamePause();
+    console.log('PLAY on destroy');
   }
 
   checkMiss(cell: Vec2) {
