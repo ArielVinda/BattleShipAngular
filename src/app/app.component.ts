@@ -19,7 +19,6 @@ export class AppComponent {
   ) {}
 
   navigate(path: string) {
-    console.log(this.settingsServices.getUserSettings());
     if (path === 'play' && !this.settingsServices.getUserSettings()) {
       this.dialog.open(NoSettingsDialogComponent, {config: {hasBackdrop: true}});
     } else {

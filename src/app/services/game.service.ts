@@ -117,12 +117,10 @@ export class GameService {
   checkTurns() {
     if (this.turns === 0 && this.hitArray.length !== 20) {
       // if out of turns and haven't hit all the ship cells
-      console.log('You loose!');
       this.gameResult = Result.LOOSE;
       this.gameResultSubject.next(this.gameResult);
       this.gameFinished();
     } else if (this.hitArray.length === 20) {
-      console.log('You win!');
       let score = (this.hitArray.length - (this.missArray.length * (20 / this.maxTurns))) * 1000;
       this.scoreService.writeScore({name: this.name, score: score});
       this.gameResult = Result.WIN;

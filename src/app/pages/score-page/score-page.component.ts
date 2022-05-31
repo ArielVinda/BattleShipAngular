@@ -45,7 +45,6 @@ export class ScorePageComponent implements OnInit, OnDestroy {
       }
     });
     this.scoreServiceUnsubscribe = this.scoreService.getAllScores().subscribe((res)=> {
-      console.log(res);
       this.scoreList = res;
     })
   }

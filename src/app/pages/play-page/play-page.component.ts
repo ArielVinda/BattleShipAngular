@@ -40,7 +40,6 @@ export class PlayPageComponent implements OnInit, OnDestroy {
 
   checkGameEnded() {
     if (this.gameFinished) {
-      console.log('roses');
       let gameResult = this.gameService.getGameResult();
       let data;
       if (gameResult === Result.WIN) {

@@ -21,9 +21,7 @@ export class BoardCellComponent implements OnInit {
   canClick(): void {
     if (this.state === 'untouched') {
       this.onClick.emit();
-    } else {
-      console.log('can\'t click: cell state is', `\"${this.state}\"`);
-    }
+    } 
   }
 
 }

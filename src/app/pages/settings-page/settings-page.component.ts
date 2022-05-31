@@ -79,7 +79,6 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
   }
 
   saveForm(): void {
-    console.log(this.form.value);
     this.settingsService.writeSettings(this.form.value);
   }
 
@@ -90,7 +89,6 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.gameStateSubscription = 
     this.gameService.getGameState().subscribe((res) => {
-      console.log(res);
       this.gameState = res;
       if (this.gameState === GameState.ON || this.gameState ===  GameState.PAUSED) {
         this.openDialog();

@@ -36,7 +36,6 @@ export class BoardUtilsService {
   }
 
   checkCellBussy(cell: Vec2, board: Array<Ship>) {
-    // console.log(board);
     // Check if the cell is occupied by a piece of a ship
     let filteredBoard: Array<{index: number, ship: Ship}> = [];
     board.map((ship, index) => {
