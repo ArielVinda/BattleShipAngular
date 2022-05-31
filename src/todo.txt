@@ -2,7 +2,6 @@ TODO:
 // - Toggle Sistem for settings
 // - Board generation
 // - Board Logic
-- Score Logic
-- Game Service
-- Game Start/End validations
-- Start Game PopUp
+// - Score Logic
+// - Game Service
+// - Game Start/End validations
